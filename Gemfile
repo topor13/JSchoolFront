@@ -37,7 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'jquery-rails'
-gem "bootstrap-sass", "2.3.1.0"
+gem "bootstrap-sass", "3.4.1"
 gem "bootstrap_form"
 gem 'bootstrap-datepicker-rails'
 gem 'autoprefixer-rails'
