@@ -5,7 +5,7 @@ server '82.196.10.5', user: 'deployer', port: 1026, password: fetch(:password), 
 set :scm, :git
 set :branch, "master"
 set :deploy_via, :remote_cache
-set :repo_url,  "git@bitbucket.org:topor13/JSchoolFront.git"
+set :repo_url,  "git@github.com:topor13/JSchoolFront.git"
 set :deploy_to, "/home/deployer/JSchoolFront"
 
 set :ssh_options, {
