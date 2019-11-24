@@ -14,6 +14,6 @@
 //= require activestorage
 //= require turbolinks
 //= require jquery3
-//= require bootstrap-sprockets
+//= require bootstrap
 //= require bootstrap-datepicker
 //= require_tree .
