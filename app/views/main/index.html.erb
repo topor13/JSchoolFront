@@ -1,3 +1,6 @@
-<h1>Main#index</h1>
-<p>Find me in app/views/main/index.html.erb</p>
-<%= link_to 'Add car', '#', class: "btn btn-info" %>
+<%=content_tag :h1, 'Добро пожаловать в автосервис!' %>
+<%=content_tag :h2, 'Что будем чинить?' %>
+<%= bootstrap_form_for('#') do |f| %>
+  <%= f.select 'Марка авто:', @json_resp, include_blank: 'Выберите марку', class: 'order_time_select-JS' %>
+  <%= link_to 'Рассчитать цену', '#', class: "btn btn-info" %>
+<% end %>
