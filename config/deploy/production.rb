@@ -16,6 +16,7 @@ set :ssh_options, {
 set :log_level, :debug
 
 set :linked_files, %w{.env config/master.key}
+set :linked_dirs, %w{assets_manifest_backup}
 
 SSHKit.config.command_map[:rake]  = "bundle exec rake" #8
 SSHKit.config.command_map[:rails] = "bundle exec rails"
