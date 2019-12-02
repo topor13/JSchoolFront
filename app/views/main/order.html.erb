@@ -13,24 +13,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-    </tr>
+    <% @parts_names.each_with_index do |part, i| %>
+      <%= content_tag :tr do %>
+        <%= content_tag :th, i + 1, scope: 'row' %>
+        <%= content_tag :td, part %>
+        <%= content_tag :td, '100' %>
+      <% end %>
+    <% end %>
   </tbody>
 </table>
 <%= content_tag :span, '', class: 'custom-right' do |s| %>
   <%= content_tag :strong, "Итоговая стоимость:" %>
-  <%= "#{@model} RUR" %>
+  <%= "#{@parts_names.count * 100} RUR" %>
 <% end %>

@@ -2,17 +2,26 @@
 <%= link_to 'Войти', '#', class: "btn btn-info custom-right" %>
 <%=content_tag :h2, 'Что будем чинить?' %>
 <%= bootstrap_form_for('#') do |f| %>
-  <%= f.select 'Марка авто:', @brands, { label: 'Марка авто:', include_blank: 'Выберите марку' }, { class: "location", id: 'brand_select-JS' } %>
+  
+  <%= f.select 'Марка авто:', @brands.invert, { label: 'Марка авто:', include_blank: 'Выберите марку' }, { class: "location", id: 'brand_select-JS' } %>
+  <%#= f.collection_select :brand, @brands_arr,,, { label: 'Марка авто:', include_blank: 'Выберите марку' }, { class: "location", id: 'brand_select-JS' } %>
 <% end %>
 <%= bootstrap_form_for('#') do |f| %>
-  <%= f.select 'Модель авто:', @models, { label: 'Модель авто:', include_blank: 'Выберите модель' }, { class: "location", id: 'model_select-JS' } %>
+  <%= f.select 'Модель авто:', '', { label: 'Модель авто:', include_blank: 'Выберите модель' }, { class: "location", id: 'model_select-JS' } %>
 <% end %>
 <%= bootstrap_form_for('#') do |f| %>
-  <%= f.select 'Деталь:', @parts, { label: 'Деталь:', include_blank: 'Выберите деталь' }, { class: "location", id: 'part_select-JS' } %>
+  <%= f.select 'Деталь:', @parts.invert, { label: 'Деталь:', include_blank: 'Выберите деталь' }, { class: "location", id: 'part_select-JS' } %>
+  <%= content_tag :span, 'Добавить к заказу', { class: 'btn btn-info', id: 'add_btn-JS' } %>
 <% end %>
+
+<%= content_tag :div, '', id: 'parts_div-JS' %>
+
+<%= content_tag :br %>
+
 <%= bootstrap_form_for('', url: order_main_index_url, method: 'get', html: { id: 'main_form-JS' }) do |f| %>
   <%= hidden_field_tag 'brand', '', id: 'order_text_for_brand_full-JS' %>
   <%= hidden_field_tag 'model', '', id: 'order_text_for_model_full-JS' %>
   <%= hidden_field_tag 'parts', '', id: 'order_text_for_parts_full-JS' %>
+  <%= hidden_field_tag 'parts_names', '', id: 'order_text_for_parts_names_full-JS' %>
   <%= content_tag :span, 'Рассчитать цену', { class: "btn btn-primary", id: 'main_commit-JS' } %>
 <% end %>

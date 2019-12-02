@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :main, only: [:new, :create, :index] do
     get 'order', on: :collection
     post 'order', on: :collection
+    get 'get_models', on: :collection
   end
 end

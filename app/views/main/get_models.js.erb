@@ -1,0 +1,5 @@
+brand_id = document.getElementById("brand_select-JS").value
+document.getElementById('model_select-JS').innerHTML = '<option value>Выберите модель</option>';
+<% @models.each do |model| %>
+  $('#model_select-JS').append($('<option value="<%= model %>"><%= model %></option>'));
+<% end %>

@@ -6,9 +6,11 @@ class MainController < ApplicationController
   def index
     #@vin = params[:vin]
     #@response = @fabric_client.query channel_id: 'firstchannel', chaincode_id: 'reestr', args: ['queryCar', @vin]
-    @brands = api_request("http://82.196.10.5:8081/brand/all")
-    @parts = api_request('http://82.196.10.5:8081/sparepart/all')
-    @models = api_request('http://82.196.10.5:8081/model/all')
+    @brands = api_request("http://82.196.10.5:8081/brand/all", 'get')
+
+    p "brands after parse: #{@brands_arr } "
+    @parts = api_request('http://82.196.10.5:8081/sparepart/all', 'get')
+    
 
     # array = []
     # cars_hash = {}
@@ -21,10 +23,16 @@ class MainController < ApplicationController
     # end
   end
 
+  def get_models
+    @models = api_request("http://82.196.10.5:8081/model/brandid/#{params[:brand_id]}", 'get')
+  end
+
   def order
     @brand = params[:brand]
     @model = params[:model]
-    @parts = params[:parts]
+    @parts_names = params[:parts_names].split(',').map.reject(&:blank?)
+    #@sum = api_request("http://82.196.10.5/pricelist/price/#{@parts}", 'post')
+    p "parts: #{@parts}"
   end
 
   private
@@ -41,14 +49,18 @@ class MainController < ApplicationController
   end
 
   def list_params
-    params.require(:main_page).permit(:brand, :model, :parts)
+    params.require(:main_page).permit(:brand, :model, :parts, :parts_names, :brand_id)
   end
 
-  def api_request(url) #, params_to_send)
+  def api_request(url, method)
     #params_string = params_to_send.to_query
     headers = { content_type: 'application/x-www-form-urlencoded' }
 
-    send_delivery = RestClient.get url, headers
+    if (method == 'get') then
+      send_delivery = RestClient.get url, headers
+    else
+      send_delivery = RestClient.post url, headers
+    end
     p "parts body: #{send_delivery}"
     JSON.parse(send_delivery.body)
   end
