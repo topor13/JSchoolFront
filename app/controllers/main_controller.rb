@@ -6,10 +6,10 @@ class MainController < ApplicationController
   def index
     #@vin = params[:vin]
     #@response = @fabric_client.query channel_id: 'firstchannel', chaincode_id: 'reestr', args: ['queryCar', @vin]
-    @brands = api_request("http://82.196.10.5:8081/brand/all", 'get')
+    @brands = api_request("http://82.196.10.5:8081/brand/all")
 
     p "brands after parse: #{@brands_arr } "
-    @parts = api_request('http://82.196.10.5:8081/sparepart/all', 'get')
+    @parts = api_request('http://82.196.10.5:8081/sparepart/all')
     
 
     # array = []
@@ -24,15 +24,24 @@ class MainController < ApplicationController
   end
 
   def get_models
-    @models = api_request("http://82.196.10.5:8081/model/brandid/#{params[:brand_id]}", 'get')
+    @models = api_request("http://82.196.10.5:8081/model/brandid/#{params[:brand_id]}")
   end
 
   def order
+    @client = params[:client]
+    @master = api_request("http://82.196.10.5:8082/master/free")
     @brand = params[:brand]
     @model = params[:model]
     @parts_names = params[:parts_names].split(',').map.reject(&:blank?)
-    #@sum = api_request("http://82.196.10.5/pricelist/price/#{@parts}", 'post')
-    p "parts: #{@parts}"
+    p "parts_names: @parts_names"
+    @parts = params[:parts].split(',').map.reject(&:blank?)
+    @parts_arr = []
+    @parts.each do |p|
+      @parts_arr.push(api_request("http://82.196.10.5:8082/pricelist/#{p}"))
+    end
+    p "parts_arr: #{@parts_arr}"
+    @sum = api_post_request("http://82.196.10.5:8082/pricelist/price/", @parts)
+    p "sum: #{@sum}"
   end
 
   private
@@ -49,18 +58,25 @@ class MainController < ApplicationController
   end
 
   def list_params
-    params.require(:main_page).permit(:brand, :model, :parts, :parts_names, :brand_id)
+    params.require(:main_page).permit(:brand, :model, :parts, :parts_names, :brand_id, :client)
   end
 
-  def api_request(url, method)
+  def api_request(url)
     #params_string = params_to_send.to_query
     headers = { content_type: 'application/x-www-form-urlencoded' }
+    send_delivery = RestClient.get url, headers
 
-    if (method == 'get') then
-      send_delivery = RestClient.get url, headers
-    else
-      send_delivery = RestClient.post url, headers
-    end
+    p "parts body: #{send_delivery}"
+    JSON.parse(send_delivery.body)
+  end
+
+  def api_post_request(url, payload)
+    #params_string = params_to_send.to_query
+    headers = { content_type: 'json' }
+    p "req_head: #{headers}"
+    p "req_body: #{payload}"
+    p "req_url: #{url}"
+    send_delivery = RestClient.post url, (payload).to_json, headers
     p "parts body: #{send_delivery}"
     JSON.parse(send_delivery.body)
   end

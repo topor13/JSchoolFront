@@ -1,0 +1,29 @@
+<%=content_tag :h1, 'Панель администратора' %>
+<%= link_to 'Бренды', panel_brands_path, class: "btn btn-primary" %>
+<%= link_to 'Модели', panel_models_path, class: "btn btn-secondary" %>
+<%= link_to 'Детали', panel_parts_path, class: "btn btn-secondary" %>
+
+<%= link_to 'Назад', main_index_path, class: "btn btn-info custom-right" %>
+
+<%= content_tag :br %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Наименование</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @brands.each_with_index do |brand, i| %>
+      <%= content_tag :tr do %>
+        <%= content_tag :th, i + 1, scope: 'row' %>
+        <%= content_tag :td, brand[1] %>
+        <%= content_tag :td do %>
+          <%= link_to "Редактировать", edit_brand_panel_index_index_path(brand), class: 'btn btn-xs btn-default order-btn-edit-js' %>
+          <%= link_to "Удалить", delete_brand_panel_index_index_path(brand), class: 'btn btn-xs btn-danger', data: { confirm: "Вы действительно хотите удалить эту марку?" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

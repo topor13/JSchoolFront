@@ -7,4 +7,17 @@ Rails.application.routes.draw do
     post 'order', on: :collection
     get 'get_models', on: :collection
   end
+
+  namespace :panel, as: 'panel' do
+    resources :index, only: [:new, :create, :index] do
+      get 'delete_brand', on: :collection
+      get 'edit_brand', on: :collection
+      get 'create_brand', on: :collection
+    end
+    resources :brands
+    resources :parts
+    resources :models
+
+    root 'index#index'
+  end
 end

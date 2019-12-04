@@ -10,6 +10,8 @@ window.onload = function(){
   var model_text_hidden = document.getElementById("order_text_for_model_full-JS");
   var parts_text_hidden = document.getElementById("order_text_for_parts_full-JS");
   var parts_names_text_hidden = document.getElementById("order_text_for_parts_names_full-JS");
+  var clientName = document.getElementById("client_input-JS");
+  var client_text_hidden = document.getElementById("order_text_for_client_full-JS");
 
   brandSelect.onchange = function() {
     brandSelect.classList.remove('border-danger');
@@ -35,6 +37,11 @@ window.onload = function(){
     partSelect.classList.remove('border-danger');
   }
 
+  clientName.onchange = function() {
+    clientName.classList.remove('border-danger');
+    client_text_hidden.value = clientName.value;
+  }
+
   addPartsBtn.onclick = function() {
     partsDiv.append(partSelect.options[partSelect.selectedIndex].text);
     partsDiv.appendChild(document.createElement('br'));
@@ -44,10 +51,15 @@ window.onload = function(){
 
   mainCommit.onclick = function() {
     console.log("submit work");
+    console.log(clientName.value);
+    console.log(parts_text_hidden.value);
 
     if (brandSelect.value == '' || modelSelect.value == '' || partSelect.value == '') {
       if (brandSelect.value == '') {
         brandSelect.classList.add('border-danger');
+      }
+      if (clientName.value == '') {
+        clientName.classList.add('border-danger');
       }
       if (modelSelect.value == '') {
         modelSelect.classList.add('border-danger');

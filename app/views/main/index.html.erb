@@ -1,6 +1,15 @@
 <%=content_tag :h1, 'Добро пожаловать в автосервис!' %>
-<%= link_to 'Войти', '#', class: "btn btn-info custom-right" %>
-<%=content_tag :h2, 'Что будем чинить?' %>
+<%= link_to 'Войти', panel_brands_path, class: "btn btn-info custom-right" %>
+<%=content_tag :h2, 'Формирование заказа' %>
+<label for="client_input-JS">Клиент:</label>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">ФИО:</span>
+  </div>
+  
+  <input id="client_input-JS" type="text" class="form-control" placeholder="Иванов Иван Иванович" aria-label="Clientname" aria-describedby="basic-addon1">
+</div>
+
 <%= bootstrap_form_for('#') do |f| %>
   
   <%= f.select 'Марка авто:', @brands.invert, { label: 'Марка авто:', include_blank: 'Выберите марку' }, { class: "location", id: 'brand_select-JS' } %>
@@ -19,6 +28,7 @@
 <%= content_tag :br %>
 
 <%= bootstrap_form_for('', url: order_main_index_url, method: 'get', html: { id: 'main_form-JS' }) do |f| %>
+  <%= hidden_field_tag 'client', '', id: 'order_text_for_client_full-JS' %>
   <%= hidden_field_tag 'brand', '', id: 'order_text_for_brand_full-JS' %>
   <%= hidden_field_tag 'model', '', id: 'order_text_for_model_full-JS' %>
   <%= hidden_field_tag 'parts', '', id: 'order_text_for_parts_full-JS' %>

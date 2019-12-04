@@ -1,5 +1,14 @@
 <%= content_tag :h1, 'Ваш заказ:' %>
 <%= content_tag :br %>
+<%= content_tag :span, "Клиент: #{@client}" %>
+<%= content_tag :br %>
+<% if @master == {} then %>  
+  <%= content_tag :span, "Мастер: " %>
+  <%= content_tag :b, 'Свободных мастеров на данный момент нет! Попробуйте позже или свяжитесь с нами по телефону.' %>
+<% else %>
+  <%= content_tag :span, "Мастер: #{@master}" %>
+<% end %>
+<%= content_tag :br %>
 <%= content_tag :span, "Автомобиль: #{@brand} #{@model}" %>
 <%= content_tag :br %>
 <%= content_tag :span, "Список деталей:"%>
@@ -13,16 +22,18 @@
     </tr>
   </thead>
   <tbody>
-    <% @parts_names.each_with_index do |part, i| %>
+    <% @parts_arr.each_with_index do |part, i| %>
       <%= content_tag :tr do %>
         <%= content_tag :th, i + 1, scope: 'row' %>
-        <%= content_tag :td, part %>
-        <%= content_tag :td, '100' %>
+        <%= content_tag :td, part['sparepartName'] %>
+        <%= content_tag :td, part['price'] %>
       <% end %>
     <% end %>
   </tbody>
 </table>
 <%= content_tag :span, '', class: 'custom-right' do |s| %>
   <%= content_tag :strong, "Итоговая стоимость:" %>
-  <%= "#{@parts_names.count * 100} RUR" %>
+  <%= "#{@sum} RUR" %>
 <% end %>
+<%= content_tag :br %>
+<%= link_to 'Назад', main_index_path, class: "btn btn-info custom-right" %>

@@ -1,0 +1,2 @@
+module Panel::PartsHelper
+end

@@ -1,0 +1,20 @@
+<%=content_tag :h1, 'Панель администратора' %>
+<%= link_to 'Бренды', panel_brands_path, class: "btn btn-secondary" %>
+<%= link_to 'Модели', panel_models_path, class: "btn btn-primary" %>
+<%= link_to 'Детали', panel_parts_path, class: "btn btn-secondary" %>
+
+<%= link_to 'Назад', main_index_path, class: "btn btn-info custom-right" %>
+
+<%= content_tag :br %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Наименование</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
