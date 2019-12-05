@@ -1,29 +1,25 @@
-class Panel::BrandsController < ApplicationController
+class Panel::MastersController < ApplicationController
 
   require 'json'
   require 'rest-client'
   before_action :set_resource
 
   def index
-    @brands = api_request("http://82.196.10.5:8081/brand/all").collect { |k,v| [ k, v ] }
-    p "brands: #{@brands}"
-    @models = []
-    @parts = api_request('http://82.196.10.5:8081/sparepart/all')
+    @masters = api_request("http://82.196.10.5:8082/masters/all")
   end
 
   def get_models
     @models = api_request("http://82.196.10.5:8081/model/brandid/#{params[:brand_id]}")
   end
 
-  def delete_brand
-    p "params: #{params}"
-    api_delete_request("http://82.196.10.5:8081/brand/#{params[:brand_id]}" )
-    redirect_to panel_brands_path
+  def create_model
+    model = api_post_request("http://82.196.10.5:8081/model", { model: params[:model_name] } )
+    api_post_request("http://82.196.10.5:8081/links", { modelId: model['id'], brandId: params[:brand_id] } )
+    redirect_to panel_models_path
   end
 
-  def create_brand
-    api_post_request('http://82.196.10.5:8081/brand', { brand: params[:brand] } )
-    redirect_to panel_brands_path
+  def delete_model
+    redirect_to panel_models_path
   end
 
 
@@ -54,12 +50,6 @@ class Panel::BrandsController < ApplicationController
     send_delivery = RestClient.post url, (payload).to_json, headers
     p "parts body: #{send_delivery}"
     JSON.parse(send_delivery.body)
-  end
-
-  def api_delete_request(url)
-    #params_string = params_to_send.to_query
-    headers = { content_type: 'application/x-www-form-urlencoded' }
-    send_delivery = RestClient.delete url, headers
   end
 
 end

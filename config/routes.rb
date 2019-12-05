@@ -9,15 +9,28 @@ Rails.application.routes.draw do
   end
 
   namespace :panel, as: 'panel' do
-    resources :index, only: [:new, :create, :index] do
+    resources :brands, only: [:index] do
       get 'delete_brand', on: :collection
       get 'edit_brand', on: :collection
       get 'create_brand', on: :collection
     end
-    resources :brands
-    resources :parts
-    resources :models
+    resources :parts, only: [:index] do
+      get 'delete_part', on: :collection
+      get 'edit_part', on: :collection
+      get 'create_part', on: :collection
+    end
+    resources :models, only: [:index] do
+      get 'delete_model', on: :collection
+      get 'edit_model', on: :collection
+      get 'create_model', on: :collection
+    end
+    resources :masters, only: [:index] do
+      get 'delete_master', on: :collection
+      get 'edit_master', on: :collection
+      get 'create_master', on: :collection
+      get 'free_master', on: :collection
+    end
 
-    root 'index#index'
+    root 'brands#index'
   end
 end

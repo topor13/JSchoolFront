@@ -2,6 +2,7 @@
 <%= link_to 'Бренды', panel_brands_path, class: "btn btn-primary" %>
 <%= link_to 'Модели', panel_models_path, class: "btn btn-secondary" %>
 <%= link_to 'Детали', panel_parts_path, class: "btn btn-secondary" %>
+<%#= link_to 'Мастера', panel_masters_path, class: "btn btn-secondary" %>
 
 <%= link_to 'Назад', main_index_path, class: "btn btn-info custom-right" %>
 
@@ -10,7 +11,7 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Наименование</th>
+      <th scope="col">ФИО</th>
       <th scope="col">Действие</th>
     </tr>
   </thead>
@@ -20,10 +21,20 @@
         <%= content_tag :th, i + 1, scope: 'row' %>
         <%= content_tag :td, brand[1] %>
         <%= content_tag :td do %>
-          <%= link_to "Редактировать", edit_brand_panel_index_index_path(brand), class: 'btn btn-xs btn-default order-btn-edit-js' %>
-          <%= link_to "Удалить", delete_brand_panel_index_index_path(brand), class: 'btn btn-xs btn-danger', data: { confirm: "Вы действительно хотите удалить эту марку?" } %>
+          <%#= link_to "Редактировать", edit_brand_panel_brands_path(brand[0]), class: 'btn btn-xs btn-default order-btn-edit-js' %>
+          <%= link_to "Удалить", delete_brand_panel_brands_path(brand_id: brand[0]), class: 'btn btn-xs btn-danger', data: { confirm: "Вы действительно хотите удалить эту марку?" } %>
         <% end %>
       <% end %>
     <% end %>
   </tbody>
 </table>
+<%= content_tag :br %>
+
+<%= bootstrap_form_for('', url: create_brand_panel_brands_path, method: 'get') do |f| %>
+  <%= content_tag :div, '', class: "form-inline mx-3" do %>
+    <%= f.text_field :brand, class: 'input-group-text mx-3', placeholder: 'Добавить марку', label: 'Марка: ' %>
+    <%= content_tag :span, '   ' %>
+    <%= f.submit 'Добавить' %>
+  <% end %>
+<% end %>
+

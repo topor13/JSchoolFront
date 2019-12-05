@@ -2,6 +2,7 @@
 <%= link_to 'Бренды', panel_brands_path, class: "btn btn-secondary" %>
 <%= link_to 'Модели', panel_models_path, class: "btn btn-secondary" %>
 <%= link_to 'Детали', panel_parts_path, class: "btn btn-primary" %>
+<%#= link_to 'Мастера', panel_masters_path, class: "btn btn-secondary" %>
 
 <%= link_to 'Назад', main_index_path, class: "btn btn-info custom-right" %>
 
@@ -11,10 +12,35 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Наименование</th>
+      <th scope="col">Стоимость</th>
       <th scope="col">Действие</th>
     </tr>
   </thead>
   <tbody>
-
+    <% @parts_arr.each_with_index do |part, i| %>
+      <%= content_tag :tr do %>
+        <%= content_tag :th, i + 1, scope: 'row' %>
+        <%= content_tag :td, part[1] %>
+        <%= content_tag :td, part[2]['price'] %>
+        <%= content_tag :td do %>
+          <%#= link_to "Редактировать", edit_brand_panel_index_index_path(part), class: 'btn btn-xs btn-default order-btn-edit-js' %>
+          <%= link_to "Удалить", delete_part_panel_parts_path(part_id: part[0]), class: 'btn btn-xs btn-danger', data: { confirm: "Вы действительно хотите удалить эту деталь?" } %>
+        <% end %>
+      <% end %>
+    <% end %>
   </tbody>
 </table>
+
+<%= content_tag :br %>
+<%= bootstrap_form_for('', url: create_part_panel_parts_path, method: 'get') do |f| %>
+  <%= content_tag :div, '', class: "form-inline" do %>
+    <%= f.text_field :sparepart, class: 'input-group-text mx-3', placeholder: 'Наименование', label: 'Деталь: ' %>
+    <%= f.text_field :price, class: 'input-group-text mx-3', placeholder: 'Введите цену', label: 'Цена: ' %>
+    <%= content_tag :span, '   ' %>
+    <%= f.submit 'Добавить' %>
+  <% end %>
+<% end %>
+
+<%= content_tag :br %>
+<%= content_tag :br %>
+<%= content_tag :br %>

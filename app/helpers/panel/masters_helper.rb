@@ -1,0 +1,2 @@
+module Panel::MastersHelper
+end

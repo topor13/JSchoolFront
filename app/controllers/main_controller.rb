@@ -29,7 +29,18 @@ class MainController < ApplicationController
 
   def order
     @client = params[:client]
+
+    @client_in_base = api_post_request('http://82.196.10.5:8082/client/', { name: @client } )
+    p "cl_in_b: #{@client_in_base}"
     @master = api_request("http://82.196.10.5:8082/master/free")
+    api_put_request('http://82.196.10.5:8082/master', { id: @master['id'], masterName: @master['mastername'], buzy: "true" } )
+    @order_params = {
+        "clientId": @client_in_base['id'],
+        "masterId": @master['id'],
+      }
+    @order = api_post_request('http://82.196.10.5:8082/order/', @order_params)
+    p "order: #{@order}"
+
     @brand = params[:brand]
     @model = params[:model]
     @parts_names = params[:parts_names].split(',').map.reject(&:blank?)
@@ -38,6 +49,8 @@ class MainController < ApplicationController
     @parts_arr = []
     @parts.each do |p|
       @parts_arr.push(api_request("http://82.196.10.5:8082/pricelist/#{p}"))
+      #@rep_lst = api_post_request('http://82.196.10.5:8082/repairlist/', { orderUUID: @order['uuid'], pricelistId: p } )
+      #p "rep_lst: #{@rep_lst}"
     end
     p "parts_arr: #{@parts_arr}"
     @sum = api_post_request("http://82.196.10.5:8082/pricelist/price/", @parts)
@@ -77,6 +90,17 @@ class MainController < ApplicationController
     p "req_body: #{payload}"
     p "req_url: #{url}"
     send_delivery = RestClient.post url, (payload).to_json, headers
+    p "parts body: #{send_delivery}"
+    JSON.parse(send_delivery.body)
+  end
+
+  def api_put_request(url, payload)
+    #params_string = params_to_send.to_query
+    headers = { content_type: 'json' }
+    p "req_head: #{headers}"
+    p "req_body: #{payload}"
+    p "req_url: #{url}"
+    send_delivery = RestClient.put url, (payload).to_json, headers
     p "parts body: #{send_delivery}"
     JSON.parse(send_delivery.body)
   end

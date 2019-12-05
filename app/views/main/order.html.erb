@@ -6,8 +6,10 @@
   <%= content_tag :span, "Мастер: " %>
   <%= content_tag :b, 'Свободных мастеров на данный момент нет! Попробуйте позже или свяжитесь с нами по телефону.' %>
 <% else %>
-  <%= content_tag :span, "Мастер: #{@master}" %>
+  <%= content_tag :span, "Мастер: #{@master['mastername']}" %>
 <% end %>
+<%= content_tag :br %>
+<%= content_tag :span, "Номер заказа: #{@order['uuid']}" %>
 <%= content_tag :br %>
 <%= content_tag :span, "Автомобиль: #{@brand} #{@model}" %>
 <%= content_tag :br %>
